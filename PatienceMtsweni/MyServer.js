@@ -11,7 +11,8 @@ var isValidMime;
 var fs = require("fs");
 var path;
 var size;
-
+var mimeType;
+var validSize = false;
 /** Configure the multer. */
 app.use(multer({dest: './uploads/',
     rename: function(fieldname, filename){
@@ -21,32 +22,31 @@ app.use(multer({dest: './uploads/',
         mimeType = file.mimetype;
         path = file.path;
         size = file.size;
-        console.log(mimeType);
         done = true;
-        if(mimeType != null )
-        {
-            isValidMime = true;
-        }
+
     }
 }));
+/** check mime type */
 
+function validate(_mimeType,_size){
+    if(mimeType != null && size > 0)
+    return true;
+   else
+        return false;
+}
 /*Handling the routes. */
 app.get('/', function(req, res){
     res.sendFile("upload.html", {root:__dirname})
 });
 
 app.post('/api/upload', function(req, res){
-   if(done==true && isValidMime == true) {
+   if(done==true && validate() == true) {
        console.log(req.files);
         res.end("File uploaded");
     }
-    else if(isValidMime != true && size < 0)
-   {
+     else {
+       if(size > 0)
        fs.unlink(path);
-       res.end("File not uploaded")
-   }
-    else
-   {
        res.end("File not uploaded")
    }
 });
