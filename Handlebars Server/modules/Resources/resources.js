@@ -47,6 +47,17 @@ resources.prototype.uploadFileData = function(file, data, req, res){
 }
 
 /**
+ * Handles the event for when a file upload is complete.
+ * @param file The file that was uploaded.
+ * @param req The request object.
+ * @param res The response object.
+ */
+resources.prototype.uploadFileComplete = function(file, req, res){
+
+    // do stuff
+}
+
+/**
  * Locates and removes the indicated resource, if possible.
  * @param resourceID The id of the resource to be removed.
  * @returns {boolean} True if successful, else false.
