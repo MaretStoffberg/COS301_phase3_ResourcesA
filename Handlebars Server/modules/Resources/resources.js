@@ -121,8 +121,11 @@ resources.prototype.removeResource = function(resourceID){
  */
 resources.prototype.checkConstraints = function(mimeType, fileSize){
 
-    var mime_success = false,
-        size_success = false;
+    var mime_success = false; 
+        size_success = false; 
+
+
+	
 
     // retrieve constraints from database
     // check for mime type,
@@ -139,17 +142,17 @@ resources.prototype.checkConstraints = function(mimeType, fileSize){
  */
 resources.prototype.addConstraint = function(mimeType, sizeLimit){
 
-    return false;
+	return false;
 }
 
 /**
  * Removes a constraint from the Resource_Constraints collection.
  * @param constraintID The ID of the constraint to be removed.
- * @returns {boolean} True if successfully removed, ele false.
+ * @returns {boolean} True if successfully removed, else false.
  */
-resources.prototype.removeResourceConstraint = function(constraintID){
-
-    return false;
+resources.prototype.removeResourceConstraint = function(constraintID)
+{
+	return false;
 }
 
 /**
@@ -162,7 +165,7 @@ resources.prototype.updateConstraint = function(constraintID, sizeLimit){
 
     //update to database
 
-    return false;
+return false;
 }
 
 module.exports = resources;
