@@ -1,5 +1,6 @@
 /*
  *  Created by Paul Engelke (u13093500)
+ *  some functions implemented by Latham
  */
 
 // REQUIRES:
