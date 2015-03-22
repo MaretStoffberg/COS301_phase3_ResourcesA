@@ -18,8 +18,9 @@ var tempDir = '../../temp';
  * @param req The request object.
  * @param res The result object.
  * @param next The next server function call in the Daisy Chain.
+ * @param userID The user uploading an image.
  */
-resources.prototype.uploadFile = function(req, res, next){
+resources.prototype.uploadFile = function(req, res, next, userID){
 
     var handler = multer({
 
@@ -39,7 +40,7 @@ resources.prototype.uploadFile = function(req, res, next){
             },
         onFileUploadComplete:
             function(file, req, res){
-                uploadFileComplete(file, req, res);
+                uploadFileComplete(file, req, res, userID);
             }
     });
 
@@ -92,8 +93,9 @@ uploadFileData = function(file, data, req, res){
  * @param file The file that was uploaded.
  * @param req The request object.
  * @param res The response object.
+ * @param userID The user who uploaded the file.
  */
-uploadFileComplete = function(file, req, res){
+uploadFileComplete = function(file, req, res, userID){
 
     // write to database and remove file from temp
 }
