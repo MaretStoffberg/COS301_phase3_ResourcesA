@@ -125,7 +125,7 @@ resources.prototype.checkConstraints = function(mimeType, fileSize){
     var mime_success = false; 
         //size_success = false; 
 
-
+//alternative db.getCollection('Resource_Constraints').find({})
 	mime_success = db.Resource_Constraints.find( { mime_type: mimeType, size_limit:{$lt:fileSize}  } ) 
 	// if it finds the same mime type and its size_limit is less than file size it
 	//makes mime_success true, else false --well this is the goal, not sure how it works
@@ -148,6 +148,7 @@ resources.prototype.addConstraint = function(mimeType, sizeLimit){
 
 	// this supposed to append to the mongodb and add to the resource_constraints db. 
 	// it assigns automatically an _id and inserts the mimeType field and the sizeLimit field
+	//alt db.getCollection('Resource_Constraints').insert({})
 	return db.Resource_Constraints.insert( { mime_type: mimeType, size_limit: sizeLimit } );
 
 
@@ -163,6 +164,7 @@ resources.prototype.addConstraint = function(mimeType, sizeLimit){
 resources.prototype.removeResourceConstraint = function(constraintID)
 {
 	//returns true if item is removed, otherwise false if not. deletes only one item
+	//alt db.getCollection('Resource_Constraints').remove({})
 	 return db.Resource_Constraints.remove( 
 	 	{ _id: constraintID },
 	 	1
@@ -181,6 +183,7 @@ resources.prototype.updateConstraint = function(constraintID, sizeLimit){
     //update to database
 
 //as i looked at the mongo documents information, the functions return true if changes where made, otherwise false;
+//alt db.getCollection('Resource_Constraints').update({})
    return db.Resource_Constraints.update(
    { _id: constraintID }, //going to update where the id matches
    { $set:
