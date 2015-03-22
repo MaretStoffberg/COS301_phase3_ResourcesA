@@ -5,7 +5,6 @@
 // REQUIRES:
 var connection = require('../Database/connect.js'); // definitely
 var multer = require('multer'); //probably
-var app = require('../../app.js'); // maybe
 
 // defines and object resources
 var resources = new Object();
@@ -15,46 +14,88 @@ var resources = new Object();
 var tempDir = '../../temp';
 
 /**
- * Handles the start of a file upload. Checks the mime type of the file before
- * uploading.
- * @param file The file to be uploaded.
- * @param request The request object.
- * @param response The response object.
- * @returns {boolean} True if upload my continue, else false.
+ * This function is called by the upload handler in the server.
+ * @param req The request object.
+ * @param res The result object.
+ * @param next The next server function call in the Daisy Chain.
  */
-resources.prototype.uploadFileStart = function(file, request, response){
+resources.prototype.uploadFile = function(req, res, next){
 
-    if (resources.checkConstraints(file.mimetype, file.fileSize)){
+    var handler = multer({
 
-        // continue
-        return true;
-    }
+        dest:
+            tempDir,
+        rename:
+            function (fieldname, filename){
+                return filename.replace(/\W+/g, '-').toLowerCase()+Date.now();
+            },
+        onFileUploadStart:
+            function(file, req, res){
+                uploadFileStart(file, req, res);
+            },
+        onFileUploadData:
+            function(file, data, req, res){
+                uploadFileData(file, data, req, res);
+            },
+        onFileUploadComplete:
+            function(file, req, res){
+                uploadFileComplete(file, req, res);
+            }
+    });
 
-    // if constraints not met, return false.
-    return false;
+    handler(req, res, next); // calls the handler.
 }
 
 /**
- * Displays progress of upload. ----------------------  NICE TO HAVE, NOT NECESSARY NOW
+ * PRIVATE: This method is not exported.
+ *
+ * Handles the start of a file upload. Checks the mime type of the file before
+ * uploading.
+ * @param file The file to be uploaded.
+ * @param req The request object.
+ * @param res The response object.
+ * @returns {boolean} True if upload my continue, else false.
+ */
+uploadFileStart = function(file, req, res){
+
+    if (!resources.checkConstraints(file.mimetype, file.fileSize)){
+
+        // display error
+        return false;
+    }
+
+    // else continue with upload
+
+    return true;
+}
+
+/**
+ * PRIVATE: This method is not exported.
+ *
+ * NICE TO HAVE, NOT NECESSARY NOW
+ *
+ * Displays progress of upload.
  * @param file The file being uploaded.
  * @param request The request object.
  * @param response The response object.
  * @returns {boolean} True if upload my continue, else false.
  */
-resources.prototype.uploadFileData = function(file, data, req, res){
+uploadFileData = function(file, data, req, res){
 
     // progress output
 }
 
 /**
+ * PRIVATE: This method is not exported.
+ *
  * Handles the event for when a file upload is complete.
  * @param file The file that was uploaded.
  * @param req The request object.
  * @param res The response object.
  */
-resources.prototype.uploadFileComplete = function(file, req, res){
+uploadFileComplete = function(file, req, res){
 
-    // do stuff
+    // write to database and remove file from temp
 }
 
 /**
