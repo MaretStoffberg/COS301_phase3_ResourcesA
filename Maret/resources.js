@@ -110,8 +110,14 @@ resources.prototype.removeResource = function(resourceID){
     // search database for resource and remove it logically.
     // if successful, return true
 
+if(db.Resources.find({_id:resourceID})) {
+    db.Resources.update(_id: resourceID, {$set: {hidden: "true"}})   ;
+    return true;
+}else
     return false;
+
 }
+
 
 /**
  * Validates the MIME type and size allowed for the specified MIME type.

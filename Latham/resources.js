@@ -1,5 +1,6 @@
 /*
  *  Created by Paul Engelke (u13093500)
+ *  some functions implemented by Latham
  */
 
 // REQUIRES:
@@ -122,16 +123,19 @@ resources.prototype.removeResource = function(resourceID){
 resources.prototype.checkConstraints = function(mimeType, fileSize){
 
     var mime_success = false; 
-        size_success = false; 
+        //size_success = false; 
 
+//alternative db.getCollection('Resource_Constraints').find({})
+	mime_success = db.Resource_Constraints.find( { mime_type: mimeType, size_limit:{$lt:fileSize}  } ) 
+	// if it finds the same mime type and its size_limit is less than file size it
+	//makes mime_success true, else false --well this is the goal, not sure how it works
 
-	
 
     // retrieve constraints from database
     // check for mime type,
     // if mime type found, check size against size_limit of matching mime_type
 
-    return mime_success && size_success;
+    return mime_success ;//&& size_success;
 }
 
 /**
@@ -142,7 +146,14 @@ resources.prototype.checkConstraints = function(mimeType, fileSize){
  */
 resources.prototype.addConstraint = function(mimeType, sizeLimit){
 
-	return false;
+	// this supposed to append to the mongodb and add to the resource_constraints db. 
+	// it assigns automatically an _id and inserts the mimeType field and the sizeLimit field
+	//alt db.getCollection('Resource_Constraints').insert({})
+	return db.Resource_Constraints.insert( { mime_type: mimeType, size_limit: sizeLimit } );
+
+
+	//return below can be taken out because above returns a true if it appended/added or a false if it failed.
+    //return false;
 }
 
 /**
@@ -152,7 +163,13 @@ resources.prototype.addConstraint = function(mimeType, sizeLimit){
  */
 resources.prototype.removeResourceConstraint = function(constraintID)
 {
-	return false;
+	//returns true if item is removed, otherwise false if not. deletes only one item
+	//alt db.getCollection('Resource_Constraints').remove({})
+	 return db.Resource_Constraints.remove( 
+	 	{ _id: constraintID },
+	 	1
+	  )
+   // return false;
 }
 
 /**
@@ -165,7 +182,18 @@ resources.prototype.updateConstraint = function(constraintID, sizeLimit){
 
     //update to database
 
-return false;
+//as i looked at the mongo documents information, the functions return true if changes where made, otherwise false;
+//alt db.getCollection('Resource_Constraints').update({})
+   return db.Resource_Constraints.update(
+   { _id: constraintID }, //going to update where the id matches
+   { $set:
+      {
+        size_limit: sizeLimit //sets a new size_limit size
+      }
+   }
+)
+
+    //return false;
 }
 
 module.exports = resources;
