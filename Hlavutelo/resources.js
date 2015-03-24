@@ -4,7 +4,7 @@
 
 // REQUIRES:
 
-console.log("Entering resources.js");
+//console.log("Entering resources.js");
 
 
 
@@ -33,24 +33,11 @@ var tempDir = '../../temp';
  * @param userID The user uploading an image.
  */
 
-var express = require("express");
-var app = express();
-
-app.use(multer({dest: tempDir,
-    rename: function(fieldname, filename){
-        return filename+Date.now();
-    },
-    onFileUploadComplete:function(file){
-        mimeType = file.mimetype;
-        path = file.path;
-        size = file.size;
-        done = true;
-    }
-}));
-
 
 resources.uploadFile = function(req, res, next, userID){
 
+
+    console.log("uploading");
     /** Configure the multer. */
     var handler = multer({
 
@@ -121,13 +108,7 @@ uploadFileData = function(file, data, req, res){
  * @param res The response object.
  * @param userID The user who uploaded the file.
  */
-uploadFileComplete = function(file, req, res, userID){
-
-    // write to database and remove file from temp
-    var mimeType = file.mimetype;
-    var path = file.path;
-    var size = file.size;
-    var done = true;
+resources.uploadFileCompleted = function(file, req, res, userID){
 
     /*
 
@@ -136,6 +117,9 @@ uploadFileComplete = function(file, req, res, userID){
         store file directly to db rather than file system
 
     */
+
+    // connect to mongobd(Buzz), then push/upload file passed as parameter to the appropriate collection
+
     var mongoose = require('mongoose');
     var Schema = mongoose.Schema;
     mongoose.connect('mongodb://45.55.154.156:27017/Buzz');
@@ -155,18 +139,25 @@ uploadFileComplete = function(file, req, res, userID){
         // file to store into mongodb
 
         var writestream = gfs.createWriteStream({
-            filename: file.name;
+            filename: file.filename
         });
-        fs.creatReadStream('../../temp/sourcefile.txt').pipe(writestream);
-        writestream,on('close', function(file)
-        {
+     
+        fs.createReadStream("sourcefile.txt").pipe(writestream);
+
+        writestream.on('close', function(file){
             // do something with file
+            db.Resources.insert({filename : file.filename, resourceID : userID});
             console.log(file.filename + 'Written to DB');
         });
     });
-
+    return true;
     // after this is done, you will see two collections added to the database 'fs.chunks' and 'fs.files'
 
+}
+
+resources.uploadFileCompleted = function()
+{
+    console.log("File uploaded")
 }
 
 /**
@@ -234,6 +225,6 @@ resources.updateConstraint = function(constraintID, sizeLimit){
     return false;
 }
 
-console.log("Exiting resources.js");
+//console.log("Exiting resources.js");
 
 module.exports = resources;
