@@ -106,11 +106,14 @@ uploadFileComplete = function(file, req, res, userID){
  * @returns {boolean} True if successful, else false.
  */
 resources.prototype.removeResource = function(resourceID){
+//search and see if resource exist
+    //if exist
+    // set hidden field to true(even if hidden field doesn't exist it creates a hidden field)
+    //return true;
+    //else return false
 
-    // search database for resource and remove it logically.
-    // if successful, return true
 
-if(db.Resources.find({_id:resourceID})) {
+if(db.Resources.find({_id:resourceID}).count()>0) {
     db.Resources.update(_id: resourceID, {$set: {hidden: "true"}})   ;
     return true;
 }else
