@@ -1,9 +1,0 @@
-{
-  "name": "ManageResources",
-  "description": "This is the ManageResources module to be used to manage resources.",
-  "version": "0.0.2",
-  "dependencies": {
-    "express":"~4.10.2",
-    "multer":"~0.1.6"
-  }
-}
