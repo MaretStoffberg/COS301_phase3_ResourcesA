@@ -52,6 +52,8 @@ resources.uploadFile = function(file, callback){
             });
 
 
+
+    }
         resources.getConstraints(function(err, results){
             // gets the constraints allowed from the database and stores them in the 'constraints' variable
             // exploit callback paradigm
@@ -60,11 +62,10 @@ resources.uploadFile = function(file, callback){
             }
         });
 
-            return callback(true);
-        }
-
     }
 
+
+    return callback(true);
 };
 
 /**
