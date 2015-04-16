@@ -1,22 +1,25 @@
 /**
  * Created by Paul on 2015/03/23.
  */
-var conn = require('database');
-var mongoose = conn.mongoose;
 
-var schemas = module.exports = {};
+module.exports = function(mongoose) {
 
-schemas.resourceSchema = mongoose.Schema({
+    var schemas = {};
 
-    file_name : String,
-    data : Buffer,
-    size : Number,
-    hidden : Boolean,
-    related_id : Number
-}, {collection: 'Resources'});
+    schemas.resourceSchema = mongoose.Schema({
 
-schemas.constraintSchema = mongoose.Schema({
+        file_name: String,
+        data: Buffer,
+        size: Number,
+        hidden: Boolean,
+        related_id: Number
+    }, {collection: 'Resources'});
 
-    mime_type : String,
-    size_limit : Number
-}, {collection: 'Resource_Constraints'});
+    schemas.constraintSchema = mongoose.Schema({
+
+        mime_type: String,
+        size_limit: Number
+    }, {collection: 'Resource_Constraints'});
+
+    return schemas;
+};

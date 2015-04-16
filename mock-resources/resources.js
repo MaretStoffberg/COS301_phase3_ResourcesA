@@ -8,10 +8,9 @@
 
 exports = module.exports = function(database) {
 
-    var conn = require('database');
-    var mongoose = conn.mongoose;
+    var mongoose = database.mongoose;
     var fs = require('fs');
-    var schemas = require('./schemas.js');
+    var schemas = require('./schemas.js')(mongoose);
 
     var tempDir = './temp';
     var maxSize = 16 * 1024 * 1024; //allowed by database
@@ -22,6 +21,7 @@ exports = module.exports = function(database) {
      * PRIVATE
      *
      * Checks whether or not the MIME type exists in the database.
+     * @param mimeType The MIME Type to be checked.
      * @param callback The function to which a truth value is returned. False if the MIME type EXISTS, else true.
      */
     var checkConstraint = function(mimeType, callback){
@@ -31,7 +31,7 @@ exports = module.exports = function(database) {
             if (err){
                 callback(false);
             } else {
-                callback(results.count() == 0);
+                callback(results.length == 0);
             }
         });
     };
@@ -146,8 +146,8 @@ exports = module.exports = function(database) {
         R.find({'hidden' : false})
             .populate('_id', 'file_name')
             .exec(function(err, results){
-            callback(err, results);
-        });
+                callback(err, results);
+            });
     };
 
     /**
@@ -270,4 +270,4 @@ exports = module.exports = function(database) {
 };
 
 exports['@singleton'] = true;
-exports['@requires'] = ['buzz-database'];
+exports['@require'] = ['buzz-database'];
