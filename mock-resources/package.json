@@ -1,6 +1,6 @@
 {
   "name": "buzz-resources",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "This package contains the functionality required for managing Buzz resources.",
   "scripts": {},
   "dependencies": {

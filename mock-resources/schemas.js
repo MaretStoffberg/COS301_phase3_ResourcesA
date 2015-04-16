@@ -12,7 +12,7 @@ schemas.resourceSchema = mongoose.Schema({
     data : Buffer,
     size : Number,
     hidden : Boolean,
-    post_id : Number
+    related_id : Number
 }, {collection: 'Resources'});
 
 schemas.constraintSchema = mongoose.Schema({
