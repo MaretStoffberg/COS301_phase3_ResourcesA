@@ -1,0 +1,32 @@
+{
+  "name": "buzz-database",
+  "version": "1.0.3",
+  "scripts": {},
+  "description": "Module that handles the Mongoose database connection",
+  "dependencies": {
+    "mongoose": "~3.8.25"
+  },
+  "devDependencies": {
+    "unit.js": "^1.1.3"
+  },
+  "main": "database.js",
+  "contributors": [
+    {
+      "name": "Jaco-Louis Kruger"
+    },
+    {
+      "name": "Renette Ros"
+    }
+  ],
+  "_id": "buzz-database@1.0.3",
+  "_shasum": "3a2feb87d85f837eb516a2670fb58d74ac05424f",
+  "_from": "buzz-database@1.0.3",
+  "_npmVersion": "2.5.1",
+  "_nodeVersion": "0.12.0",
+  "_npmUser": {},
+  "dist": {
+    "shasum": "3a2feb87d85f837eb516a2670fb58d74ac05424f",
+    "tarball": "http://45.55.188.104:4873/buzz-database/-/buzz-database-1.0.3.tgz"
+  },
+  "_resolved": "http://45.55.188.104:4873/buzz-database/-/buzz-database-1.0.3.tgz"
+}
