@@ -1,0 +1,16 @@
+{
+  "name": "buzz-resources",
+  "version": "2.3.6",
+  "description": "This package contains the functionality required for managing Buzz resources.",
+  "scripts": {},
+  "dependencies": {
+    "database": ">0.0.0",
+	  "electrolyte" : "*",
+	  "express": "~4.10.2",
+    "multer": "~0.1.6"
+  },
+  "devDependencies": {
+    "unit.js": "^1.1.3"
+  },
+  "main": "resources.js"
+}
