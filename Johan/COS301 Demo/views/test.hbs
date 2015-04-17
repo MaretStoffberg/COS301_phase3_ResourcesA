@@ -1,0 +1,14 @@
+<h1>{{title}}</h1>
+<p>Welcome to test {{title}}. {{message}}</p>
+<div id="test">This shouldn't display</div>
+
+<script type="text/javascript" src="/javascripts/client-template.js" ></script>
+<script type="text/javascript">
+
+	/*** Ideally context would be fetched with ajax at a specific interval **/
+    var context = {title2: "Title Nr 2", content:"Some content to test the template"};
+    var html = Handlebars.templates["client-template"](context);
+    console.log(".........HERE....");
+    console.log(html);
+    $("#test").html(html);
+</script>
