@@ -1,10 +1,4 @@
-/**
- *  Created by Paul Engelke (u13093500)
- *
- *  NOTE: This module, in it's current state is a dummy module. While some of the functionality
- *  works, a lot of it still needs to be implemented. Those that have yet to be implemented are
- *  indicated as such and return mock information.
- */
+
  var database = require('database');
 
 exports = module.exports = function(database) {
@@ -80,11 +74,16 @@ exports = module.exports = function(database) {
     //    }
      //   else{
 
-            var R = mongoose.model("Resources", schemas.resourceSchema);
-
-            var r = new R;
-           
+                 
             for(var i = 0; i < files.length; i++){
+
+                var C = mongoose.model('Resource_Constraints', schemas.constraintSchema);
+                var res = C.find({"mime_type" : files[i].mimetype, "size_limit" : {$lte : files[i].size}});
+
+                if(res.count()<=0) {
+                    console.log('File Mime type or size not supported');
+                    break;
+                }
                 var R = mongoose.model("Resources", schemas.resourceSchema);
 
                 var r = new R;
